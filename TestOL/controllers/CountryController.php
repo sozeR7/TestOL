@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use Yii;
+use yii\base\Model;
 use app\models\Country;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -38,7 +40,22 @@ class CountryController extends Controller
      */
     public function actionSimplegrid()
     {
+        if (Yii::$app->request->isPost) {
 
+            $models = [];
+            foreach (Yii::$app->request->post()['Country'] as $key => $country) {
+
+                $models[$key] = $this->findModel($country['id']);
+            }
+
+            if (Model::loadMultiple($models, Yii::$app->request->post()) && Model::validateMultiple($models)) {
+
+                foreach ($models as $model) {
+
+                    $model->update();
+                }
+            }
+        }
         $query = Country::find()->indexBy('id');
         $model = new Country();
         $dataProvider = new ActiveDataProvider([
