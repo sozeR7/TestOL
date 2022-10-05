@@ -21,7 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Country', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -32,11 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'code',
+            'time:datetime',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Country $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>
