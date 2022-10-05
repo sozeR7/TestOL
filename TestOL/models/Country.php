@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "country".
@@ -10,6 +11,7 @@ use Yii;
  * @property int $id
  * @property string|null $name
  * @property string|null $code
+ * @property string|null $time
  */
 class Country extends \yii\db\ActiveRecord
 {
@@ -20,7 +22,24 @@ class Country extends \yii\db\ActiveRecord
     {
         return 'country';
     }
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    Country::EVENT_BEFORE_INSERT => 'time',
 
+                ],
+                'value' => function () {
+                    return time();
+                },
+            ],
+        ];
+    }
     /**
      * {@inheritdoc}
      */
