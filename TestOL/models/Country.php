@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use kartik\grid\GridView;
+use kartik\builder\TabularForm;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -59,6 +61,25 @@ class Country extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'code' => 'Code',
+        ];
+    }
+    public function getFormAttribs()
+    {
+        return [
+            // primary key column
+            'id' => [ // primary key attribute
+                'type' => TabularForm::INPUT_HIDDEN,
+                'columnOptions' => ['hidden' => true]
+            ],
+            'name' => ['type' => TabularForm::INPUT_TEXT],
+            'code' => ['type' => TabularForm::INPUT_TEXT],
+
+            'time' => [
+                'type' => TabularForm::INPUT_STATIC,
+                'label' => 'Time',
+                'format' => ['datetime', 'php:d.m.Y H:i:s'],
+                'columnOptions' => ['hAlign' => GridView::ALIGN_RIGHT, 'width' => '90px']
+            ],
         ];
     }
 }

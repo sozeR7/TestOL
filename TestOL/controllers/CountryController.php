@@ -3,10 +3,11 @@
 namespace app\controllers;
 
 use app\models\Country;
-use app\models\CountrySearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\CountrySearch;
+use yii\data\ActiveDataProvider;
+use yii\web\NotFoundHttpException;
 
 /**
  * CountryController implements the CRUD actions for Country model.
@@ -29,6 +30,27 @@ class CountryController extends Controller
                 ],
             ]
         );
+    }
+    /**
+     * View Simplegrid.
+     *
+     * @return string
+     */
+    public function actionSimplegrid()
+    {
+
+        $query = Country::find()->indexBy('id');
+        $model = new Country();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+
+        return $this->render('simplegrid', [
+
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+        ]);
     }
 
     /**
